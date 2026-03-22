@@ -33,13 +33,13 @@ async function createTransaction(req, res) {
     }
     const fromUserAccount = await accountModel.findOne({
         _id: fromAccount
-    });
+    }).populate("user");
     if (!fromUserAccount) {
         return res.status(404).json({ message: " From Account not found" });
     }
     const toUserAccount = await accountModel.findOne({
         _id: toAccount
-    });
+    }).populate("user");
     if (!toUserAccount) {
         return res.status(404).json({ message: "To Account not found" });
     }
@@ -159,7 +159,14 @@ catch (error) {
         to: req.user.email,
         name: req.user.name,
         amount,
-        toAccount
+        toAccount: toUserAccount.user.name
+    })
+
+    await emailService.sendReceivedMoneyEmail({
+        to: toUserAccount.user.email,
+        name: toUserAccount.user.name,
+        amount,
+        fromAccount: fromUserAccount.user.name
     })
 
     return res.status(201).json({

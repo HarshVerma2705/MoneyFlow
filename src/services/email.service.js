@@ -62,4 +62,12 @@ async function sendFailedTransactionEmail({ to, name, amount, toAccount }) {
   await sendEmail(to, subject, text, html);
 }
 
-module.exports = { sendRegistrationEmail, sendTransactionEmail, sendFailedTransactionEmail }; 
+
+async function sendReceivedMoneyEmail({ to, name, amount, fromAccount }) {
+  const subject = "Money Received";
+  const text = `Hello ${name}, You have received ${amount} from ${fromAccount}`;
+  const html = `<h1>Hello ${name}, You have received ${amount} from ${fromAccount}</h1>`;
+  await sendEmail(to, subject, text, html);
+}
+
+module.exports = { sendRegistrationEmail, sendTransactionEmail, sendFailedTransactionEmail, sendReceivedMoneyEmail }; 

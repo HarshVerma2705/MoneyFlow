@@ -23,10 +23,6 @@ const accountSchema = new mongoose.Schema({
         trim: true,
         default: "INR"
     },
-    balance: {
-        type: Number,
-        default: 0
-    }
 },
     { timestamps: true });
 
